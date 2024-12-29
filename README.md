@@ -36,9 +36,9 @@ For each entities like user, we created individual mutations, queries, resolvers
 
 -> Create a service layer for user's database related stuff.
 
-
+-> We use graphQL context 
 ---------
-# ueries we can try on Appolo http://localhost:3000/graphql
+# Queries we can try on Appolo http://localhost:3000/graphql
 
 #To register a new user:
 
