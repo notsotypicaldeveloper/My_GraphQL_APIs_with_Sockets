@@ -37,10 +37,10 @@ For each entities like user, we created individual mutations, queries, resolvers
 -> Create a service layer for user's database related stuff.
 
 
-# queries we can try on Appolo http://localhost:3000/graphql
-
 ---------
-# To register a new user:
+# ueries we can try on Appolo http://localhost:3000/graphql
+
+#To register a new user:
 
 mutation Mutation($firstName: String!, $lastName: String, $email: String!, $password: String!) {
   createUser(firstName: $firstName, lastName: $lastName,email: $email, password: $password)
@@ -54,7 +54,7 @@ mutation Mutation($firstName: String!, $lastName: String, $email: String!, $pass
 }
 
 ---
-# To login a user
+#To login a user
 query Query($email: String!, $password: String!) {
   getUserToken(email: $email, password: $password)
 }
@@ -67,7 +67,7 @@ query Query($email: String!, $password: String!) {
 In response, we will get jwt token
 
 -----
-# Authorizing jwt token 
+#Authorizing jwt token 
 
 query GetCurrentLoggedInUser {
   getCurrentLoggedInUser {
