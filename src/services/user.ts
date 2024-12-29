@@ -14,21 +14,26 @@ export interface GetUserTokenPayload {
     password: string;
 }
 
+const emailRegex =  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+
 class UserService {
 
     private static generateHash(salt: string, password: string) {
 
         const hashedPassword = createHmac('sha256',salt).update(password).digest("hex");
-        console.log("hashedPassword === :::", hashedPassword);
         return hashedPassword;
+    }
 
-
+    public static getUserById(id: string) {
+        return user.findOne({ _id: id });
     }
     public static createUser(payload: CreateUserPayload) {
         const {firstName, lastName, email, password} = payload;
         
         // Add email, password, validations here
-
+        if (!emailRegex.test(email)) {
+            throw new Error(`Email is not valid`);
+        }
 
         // it is important to pass hex in toString() method, else we will have some non-readable character in database
         const salt = randomBytes(32).toString('hex');
@@ -49,10 +54,15 @@ class UserService {
     }
 
     private static getUserByEmail(email: string) {
-        return user.findOne({ email: email });;
+        return user.findOne({ email: email });
     }
     public static async getUserToken(payload: GetUserTokenPayload) {
         const {email, password} = payload;
+
+        if (!emailRegex.test(email)) {
+            throw new Error(`Email is not valid`);
+        }
+        
         // donot forget, we have to make it await too.
         const user = await UserService.getUserByEmail(email);
         
@@ -69,6 +79,10 @@ class UserService {
         // Generate the token
         const token = JWT.sign({id: user.id, email: user.email}, process.env.JWT_SECRET || "");
         return token;
+    }
+
+    public static decodeJWTToken(token: string) {
+        return JWT.verify(token, process.env.JWT_SECRET || "", )
     }
 }
 

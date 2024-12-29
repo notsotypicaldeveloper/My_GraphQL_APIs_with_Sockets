@@ -6,6 +6,7 @@
 # Things we have implemented:
 - User can register
 - User can login
+- User will get authorized
 
 # Tech stack we are using:
 node.js, express.js, graphql-apollo, mongoose, mongodb
@@ -16,7 +17,7 @@ node.js, express.js, graphql-apollo, mongoose, mongodb
 - configure following values:
 
 ``
-PORT=
+PORT=3000
 MONGO_DB_URI=
 JWT_SECRET=
 ``
@@ -34,4 +35,50 @@ In development mode:
 For each entities like user, we created individual mutations, queries, resolvers and typedefs.
 
 -> Create a service layer for user's database related stuff.
+
+
+# queries we can try on Appolo http://localhost:3000/graphql
+
+---------
+# To register a new user:
+
+mutation Mutation($firstName: String!, $lastName: String, $email: String!, $password: String!) {
+  createUser(firstName: $firstName, lastName: $lastName,email: $email, password: $password)
+}
+
+{  
+  "firstName": "jef",
+  "lastName": "john",
+  "email": "jefjohn@gmail.com",
+  "password": "jefjohn"
+}
+
+---
+# To login a user
+query Query($email: String!, $password: String!) {
+  getUserToken(email: $email, password: $password)
+}
+
+{  
+  "email": "jefjohn@gmail.com",
+  "password": "jefjohn"
+}
+
+In response, we will get jwt token
+
+-----
+# Authorizing jwt token 
+
+query GetCurrentLoggedInUser {
+  getCurrentLoggedInUser {
+    id
+    email
+  }
+}
+
+In header, pass:
+token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NzE1MjFkM2JhOTg0MWNmNTgxZjMzMyIsImVtYWlsIjoiamVmam9obkBnbWFpbC5jb20iLCJpYXQiOjE3MzU0ODE3MjB9.aKl4NNku2l58dPce16IQLlA5_-KJMkD-SXRfR3tjLX4
+
+id and email, we want to fetch, if header 'token' is valid.
+
 
