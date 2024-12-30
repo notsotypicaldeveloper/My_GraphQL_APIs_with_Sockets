@@ -7,9 +7,11 @@
 - User can register
 - User can login
 - User will get authorized
+- Real time Chat Application with room functionality
 
 # Tech stack we are using:
-node.js, express.js, graphql-apollo, mongoose, mongodb
+node.js, express.js, graphQL, Apollo GraphQL, mongoose, mongodb
+
 
 
 # How to run the project
