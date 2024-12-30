@@ -82,3 +82,5 @@ token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NzE1MjFkM2JhOTg0MWNmNTgx
 id and email, we want to fetch, if header 'token' is valid.
 
 
+# Client side for socket.io
+http://localhost:3000/index.html

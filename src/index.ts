@@ -14,21 +14,36 @@ async function init() {
     const app = express();
     const server = http.createServer(app);
     
-    const PORT = process.env.PORT || 8000;
+    const PORT = Number(process.env.PORT || 3000);
 
     const io = new Server(server);
 
     app.use(express.json());
     app.use(cors());
 
+    let roomNo = 1;
+
+    let currentCountInGroup = 0;
+    let maxCountInGroup = 2;
+
     // socket in callback parameter signifies client
     io.on("connection", (socket)=> {
         console.log(`user connected with id: ${socket.id}`);
 
+        socket.join("room-"+roomNo);
+
+        io.sockets.in("room-"+roomNo).emit("connectedRoom", "New user connected to room "+ roomNo);
+
+        currentCountInGroup++;
+
+        if(currentCountInGroup > maxCountInGroup) {
+            roomNo++;
+            currentCountInGroup = 0;
+        }
         socket.on("message-to-server", (message)=>{
 
-            io.emit("message-to-users", message);
-
+            io.sockets.in("room-"+roomNo).emit("message-to-users", message);
+            // io.emit("message-to-users", message);
             // socket.broadcast.emit("message-to-users", message);
         })
 

@@ -54,6 +54,13 @@
             messages.appendChild(item);
             window.scrollTo(0, document.body.scrollHeight);
         })
+
+        socket.on("connectedRoom", function(message) {
+            let item = document.createElement('li');
+            item.textContent = message;
+            messages.appendChild(item);
+            window.scrollTo(0, document.body.scrollHeight);
+        })
         
     </script>
 
