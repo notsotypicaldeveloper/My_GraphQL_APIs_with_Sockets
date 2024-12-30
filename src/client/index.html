@@ -24,7 +24,8 @@
     <ul id="messages"></ul>
 
     <form id="form" action="">
-      <input type="text" id="messageInput" autocomplete="off" /><button>Send</button>
+      <input type="text" id="messageInput" autocomplete="off" placeholder="Please input message"/>
+      <button>Send</button>
     </form>
 
 
@@ -39,28 +40,27 @@
 
         form.addEventListener("submit", (e)=> {
             e.preventDefault();
-
-            console.log(`message-to-server `, messageInput.value);
-            // client sending message to server
             socket.emit('message-to-server', messageInput.value);
             messageInput.value='';
         });
 
         let messages = document.getElementById('messages');
 
-        socket.on("message-to-users", (message) => {
+        socket.on("message-to-room", function(message) {
             let item = document.createElement('li');
             item.textContent = message;
             messages.appendChild(item);
             window.scrollTo(0, document.body.scrollHeight);
         })
 
-        socket.on("connectedRoom", function(message) {
+        socket.on("message-to-group", (message) => {
             let item = document.createElement('li');
             item.textContent = message;
             messages.appendChild(item);
             window.scrollTo(0, document.body.scrollHeight);
         })
+
+        
         
     </script>
 

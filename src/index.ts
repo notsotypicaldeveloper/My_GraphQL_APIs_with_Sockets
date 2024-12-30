@@ -26,25 +26,29 @@ async function init() {
     let currentCountInGroup = 0;
     let maxCountInGroup = 2;
 
+    // we will map socketId with roomNumber
+    let myMap = new Map<string, number>();
+
     // socket in callback parameter signifies client
     io.on("connection", (socket)=> {
         console.log(`user connected with id: ${socket.id}`);
 
-        socket.join("room-"+roomNo);
-
-        io.sockets.in("room-"+roomNo).emit("connectedRoom", "New user connected to room "+ roomNo);
-
+        if(currentCountInGroup >= maxCountInGroup) {
+            currentCountInGroup = 0;
+            roomNo++;
+        }
         currentCountInGroup++;
 
-        if(currentCountInGroup >= maxCountInGroup) {
-            roomNo++;
-            currentCountInGroup = 0;
-        }
-        socket.on("message-to-server", (message)=>{
+        // set socket.id with roomNo
+        myMap.set(socket.id,roomNo);
+        socket.join("room-" + roomNo);
 
-            io.sockets.in("room-"+roomNo).emit("message-to-users", message);
-            // io.emit("message-to-users", message);
-            // socket.broadcast.emit("message-to-users", message);
+        console.log("myMap = ::::", myMap);
+
+        io.sockets.in("room-"+myMap.get(socket.id)).emit("message-to-room", `${socket.id}  connected to room ${myMap.get(socket.id)}`);
+
+        socket.on("message-to-server", (message)=>{
+            io.sockets.in("room-"+myMap.get(socket.id)).emit("message-to-group", message);
         })
 
         socket.on('disconnect', () => {
