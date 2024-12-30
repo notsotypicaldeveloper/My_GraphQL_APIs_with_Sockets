@@ -36,7 +36,7 @@ async function init() {
 
         currentCountInGroup++;
 
-        if(currentCountInGroup > maxCountInGroup) {
+        if(currentCountInGroup >= maxCountInGroup) {
             roomNo++;
             currentCountInGroup = 0;
         }

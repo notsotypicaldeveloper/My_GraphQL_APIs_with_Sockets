@@ -38,8 +38,11 @@ class UserService {
         // it is important to pass hex in toString() method, else we will have some non-readable character in database
         const salt = randomBytes(32).toString('hex');
         console.log("salt === :::", salt);
-        const hashedPassword = UserService.generateHash(password, salt);
 
+        console.log("password ==== ::::", password);
+        const hashedPassword = UserService.generateHash(salt, password);
+
+        console.log("hashedPassword = ::::", hashedPassword);
 
         // Create a new blog post object
         const newUser = new user({
@@ -69,9 +72,15 @@ class UserService {
         if(!user) { throw new Error(`user not found`);}
 
         const userSalt:string = (user.salt as any);
+
+        console.log("userSalt === ", userSalt);
         const usersHashedPassword = UserService.generateHash(userSalt, password);
 
-        if(usersHashedPassword == user.password) {
+        console.log(" password = ",  password);
+        console.log("usersHashedPassword = ", usersHashedPassword);
+        console.log(" user.password = ",  user.password);
+
+        if(usersHashedPassword != user.password) {
             // We are not throwing just incorrect password, as we want to confuse a bit to unauthorized person
             throw new Error(`Incorrect Password or email!`);
         }
