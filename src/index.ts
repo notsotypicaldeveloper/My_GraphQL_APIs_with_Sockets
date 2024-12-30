@@ -24,7 +24,7 @@ async function init() {
     let roomNo = 1;
 
     let currentCountInGroup = 0;
-    let maxCountInGroup = 2;
+    let maxCountInGroup = 3;
 
     // we will map socketId with roomNumber
     let myMap = new Map<string, number>();

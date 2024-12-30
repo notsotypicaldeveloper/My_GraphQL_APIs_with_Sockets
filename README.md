@@ -84,3 +84,7 @@ id and email, we want to fetch, if header 'token' is valid.
 
 # Client side for socket.io
 http://localhost:3000/index.html
+
+- Chat room working completely fine
+- Currently, set per room will have 3 users.
+
