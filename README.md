@@ -1,5 +1,5 @@
 # Purpose
-- Create a Authentication and Authorization server using GraphQL, Node.js, Express.
+- Create a Authentication and Authorization server using GraphQL, Node.js, Express, Typescript.
 - Add support for real-time communication using WebSockets.
   
 
